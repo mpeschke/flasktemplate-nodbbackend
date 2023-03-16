@@ -31,6 +31,6 @@ jobs:
           IMAGE_TAG: "latest"
         run: |
           docker build --tag $REPOSITORY:$IMAGE_TAG .
-          aws ecr-public get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_PUBLIC_API
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_PUBLIC_API
           docker tag $REPOSITORY:$IMAGE_TAG $ECR_PUBLIC_API:$IMAGE_TAG
           docker push $ECR_PUBLIC_API:$IMAGE_TAG
