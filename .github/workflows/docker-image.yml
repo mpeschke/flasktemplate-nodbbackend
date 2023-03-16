@@ -24,12 +24,13 @@ jobs:
           aws-region: eu-west-1
 
       - name: Build, tag, and push docker image to Amazon ECR Public
-        with:
-          REGISTRY: ${{ secrets.ECR_PUBLIC_API }}
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_PUBLIC_API: ${{ secrets.ECR_PUBLIC_API }}
           REPOSITORY: "api"
           IMAGE_TAG: "latest"
         run: |
           docker build --tag $REPOSITORY:$IMAGE_TAG .
-          aws ecr-public get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY
-          docker tag $REPOSITORY:$IMAGE_TAG $REGISTRY:$IMAGE_TAG
-          docker push $REPOSITORY:$IMAGE_TAG
+          aws ecr-public get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_PUBLIC_API
+          docker tag $REPOSITORY:$IMAGE_TAG $ECR_PUBLIC_API:$IMAGE_TAG
+          docker push $ECR_PUBLIC_API:$IMAGE_TAG
