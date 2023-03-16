@@ -8,7 +8,7 @@ Unit Tests use the unittest library.
 
 If using a Python IDE (Visual Studio Code, PyCharm, etc) it will try to detect the Python interpreter. The instructions below can be applied directly from the command line, without an IDE.    
 
-*Note: this project has issues with Python >= 3.10.*  
+*Note: this project was tested with Python >= 3.10.*  
 
 ## Local dependencies ##
 
