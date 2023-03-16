@@ -35,6 +35,6 @@ jobs:
           password: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
           image_name: api
           image_tag: latest
-          registry: ${{ steps.login-ecr.outputs.registry }}
+          registry: "public.ecr.aws/o8i1z9b2/api"
           dockerfile: Dockerfile
           build_extra_args: "--compress=true"
