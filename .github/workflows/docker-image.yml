@@ -26,15 +26,14 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Build, tag, and push image to Amazon ECR
-        id: build_container
-        uses: whoan/docker-build-with-cache-action@v5
         with:
-          username: "${{ secrets.AWS_ACCESS_KEY_ID }}"
-          password: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          image_name: api
-          image_tag: latest
-          registry: "public.ecr.aws/o8i1z9b2/api"
-          dockerfile: Dockerfile
-          build_extra_args: "--compress=true"
+          registry-type: public
+
+      - name: Build, tag, and push docker image to Amazon ECR Public
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: "api"
+          IMAGE_TAG: "latest"
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
