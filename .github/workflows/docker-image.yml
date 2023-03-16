@@ -24,7 +24,7 @@ jobs:
           aws-region: eu-west-1
 
       - name: Build, tag, and push docker image to Amazon ECR Public
-        env:
+        with:
           REGISTRY: ${{ secrets.ECR_PUBLIC_API }}
           REPOSITORY: "api"
           IMAGE_TAG: "latest"
