@@ -24,7 +24,7 @@ terraform {
 
 provider "aws" {
   # Public ECRs are supported only in us-east-1
-  region = "us-east-1"
+  region  = "us-east-1"
   profile = var.profile
 }
 
@@ -64,7 +64,7 @@ EOF
 resource "aws_ecrpublic_repository" "repo" {
   repository_name = var.imagename
 
-  force_destroy   = true
+  force_destroy = true
 
   catalog_data {
     about_text        = "${var.imagename} repository"
