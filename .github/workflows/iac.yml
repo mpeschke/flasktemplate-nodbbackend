@@ -11,9 +11,6 @@ on:
     paths:
     - 'iac/**'
     - ".github/workflows/iac.yml"
-env:
-   PROJ_ENVIRONMENT: ${{ vars.PROJ_ENVIRONMENT }}
-   terraform_version: ${{ secrets.TF_VERSION }}
 
 jobs:
   terraform:
@@ -28,7 +25,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-          terraform_version: ${{ env.terraform_version }}
+          terraform_version: 1.3.9
 
       - name: Terraform Format
         id: fmt
