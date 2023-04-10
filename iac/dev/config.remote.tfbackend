@@ -1,0 +1,3 @@
+workspaces { name = "dev-60-mpeschke-org-api" }
+hostname     = "app.terraform.io"
+organization = "mpeschke"
