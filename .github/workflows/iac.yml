@@ -35,7 +35,9 @@ jobs:
       - name: Terraform Init
         id: init
         working-directory: ./iac
-        run: terraform init -backend-config=${{ vars.ENVIRONMENT }}/config.remote.tfbackend
+        run: |
+          echo "This is the ${{ vars.ENVIRONMENT }} environment"
+          terraform init -backend-config=${{ vars.ENVIRONMENT }}/config.remote.tfbackend
 
       - name: Terraform Plan
         id: plan
