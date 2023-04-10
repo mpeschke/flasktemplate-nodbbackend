@@ -1,21 +1,22 @@
 name: IaC Using Terraform
 
 on:
-  workflow_call:
+  push:
+    branches: [ "main", "develop", "iac" ]
+    paths:
+    - 'iac/**'
+    - ".github/workflows/iac.yml"
     inputs:
       ENVIRONMENT:
         required: true
     secrets:
       TF_API_TOKEN:
         required: true
-  push:
-    branches: [ "main", "develop", "iac" ]
-    paths:
-    - 'iac/**'
   pull_request:
     branches: [ "main", "develop" ]
     paths:
     - 'iac/**'
+    - ".github/workflows/iac.yml"
 
 env:
   ENVIRONMENT: ${{ vars.ENVIRONMENT }}
@@ -47,6 +48,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
+        if: github.event_name == 'pull_request'
         working-directory: 'iac'
         run: terraform plan -no-color
         continue-on-error: true
@@ -56,5 +58,6 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
+        if: github.event_name == 'push'
         working-directory: 'iac'
         run: terraform apply -auto-approve
