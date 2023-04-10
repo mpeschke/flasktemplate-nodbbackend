@@ -15,6 +15,14 @@ name: IaC Using Terraform
 on:
   push:
     branches: [ "main", "develop", "iac" ]
+    paths:
+    - 'iac/**'
+    - ".github/workflows/iac.yml"
+  pull_request:
+    branches: [ "main", "develop" ]
+    paths:
+    - 'iac/**'
+    - ".github/workflows/iac.yml"
 
 jobs:
   terraform:
@@ -39,7 +47,7 @@ jobs:
       - name: Terraform Init
         id: init
         working-directory: ./iac
-        run: terraform init -backend-config=${{ secrets.PROJ_ENVIRONMENT }}/config.remote.tfbackend
+        run: terraform init -backend-config=${{ vars.PROJ_ENVIRONMENT }}/config.remote.tfbackend
 
       - name: Terraform Plan
         id: plan
