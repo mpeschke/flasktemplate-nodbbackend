@@ -14,6 +14,7 @@ on:
 env:
   # Setting an environment variable with the value of a configuration variable
   env_var: ${{ vars.PROJ_ENVIRONMENT }}
+  version_var: ${{ vars.TF_VERSION }}
 
 jobs:
   terraform:
@@ -28,7 +29,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-          terraform_version: ${{ vars.TF_VERSION }}
+          terraform_version: $version_var
 
       - name: Terraform Format
         id: fmt
@@ -42,8 +43,8 @@ jobs:
           vars_vars: ${{ vars.PROJ_ENVIRONMENT }}
         run: |
           echo "This is the ${{ vars.PROJ_ENVIRONMENT }} environment"
-          echo "This is the $env_var environment"
-          echo "This is the $vars_vars environment"
+          echo "This is the ${env_var} environment"
+          echo "This is the ${vars_vars} environment"
           terraform init -backend-config=${{ vars.PROJ_ENVIRONMENT }}/config.remote.tfbackend
 
       - name: Terraform Plan
