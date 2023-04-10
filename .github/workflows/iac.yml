@@ -28,7 +28,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-          terraform_version: 1.3.9
+          terraform_version: ${{ vars.TF_VERSION }}
 
       - name: Terraform Format
         id: fmt
@@ -38,9 +38,12 @@ jobs:
       - name: Terraform Init
         id: init
         working-directory: ./iac
+        with:
+          var_var: ${{ vars.PROJ_ENVIRONMENT }}
         run: |
           echo "This is the ${{ vars.PROJ_ENVIRONMENT }} environment"
           echo "This is the $env_var environment"
+          echo "This is the $var_var environment"
           terraform init -backend-config=${{ vars.PROJ_ENVIRONMENT }}/config.remote.tfbackend
 
       - name: Terraform Plan
