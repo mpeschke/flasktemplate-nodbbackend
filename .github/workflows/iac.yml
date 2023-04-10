@@ -33,7 +33,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          cli_config_credentials_token: $TF_API_TOKEN
+          cli_config_credentials_token: ${{ env.TF_API_TOKEN }}
           terraform_version: 1.3.9
 
       - name: Terraform Format
@@ -44,7 +44,7 @@ jobs:
       - name: Terraform Init
         id: init
         working-directory: 'iac'
-        run: terraform init -backend-config=$ENVIRONMENT/config.remote.tfbackend
+        run: terraform init -backend-config=${{ env.ENVIRONMENT }}/config.remote.tfbackend
 
       - name: Terraform Plan
         id: plan
