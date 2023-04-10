@@ -42,7 +42,8 @@ jobs:
         run: |
           echo "This is the $proj_env environment"
           echo "This is the $PROJ_ENVIRONMENT environment"
-          echo "This is the ${{ PROJ_ENVIRONMENT }} environment"
+          echo "This is the ${{ env.PROJ_ENVIRONMENT }} environment"
+          echo "This is the ${{ vars.PROJ_ENVIRONMENT }} environment"
           terraform init -backend-config=${{ vars.PROJ_ENVIRONMENT }}/config.remote.tfbackend
 
       - name: Terraform Plan
