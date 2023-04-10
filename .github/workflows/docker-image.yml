@@ -1,36 +1,35 @@
-name: Docker Image CI
+# name: Docker Image CI
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+# on:
+#   push:
+#     branches: [ "main", "develop", "iac" ]
+#   pull_request:
+#     branches: [ "main", "develop" ]
+# env:
+#   AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
 
-jobs:
+# jobs:
 
-  build:
+#   build:
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-1
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           aws-access-key-id: $AWS_ACCESS_KEY_ID
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: eu-west-1
 
-      - name: Build, tag, and push docker image to Amazon ECR Public
-        env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_PUBLIC_API: ${{ secrets.ECR_PUBLIC_API }}
-          REPOSITORY: "api"
-          IMAGE_TAG: "latest"
-        run: |
-          docker build --tag $REPOSITORY:$IMAGE_TAG .
-          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_PUBLIC_API
-          docker tag $REPOSITORY:$IMAGE_TAG $ECR_PUBLIC_API:$IMAGE_TAG
-          docker push $ECR_PUBLIC_API:$IMAGE_TAG
+#       - name: Build, tag, and push docker image to Amazon ECR Public
+#         env:
+#           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#           ECR_PUBLIC_API: ${{ secrets.ECR_PUBLIC_API }}
+#           REPOSITORY: "api"
+#           IMAGE_TAG: "latest"
+#         run: |
+#           docker build --tag $REPOSITORY:$IMAGE_TAG .
