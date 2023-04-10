@@ -11,7 +11,10 @@ on:
     paths:
     - 'iac/**'
     - ".github/workflows/iac.yml"
-  workflow_dispatch:
+env:
+  # Setting an environment variable with the value of a configuration variable
+  env_var: ${{ vars.PROJ_ENVIRONMENT }}
+  vars_vars: ${{ env.PROJ_ENVIRONMENT }}
 
 jobs:
   terraform:
@@ -38,6 +41,7 @@ jobs:
         working-directory: ./iac
         run: |
           echo "This is the ${{ vars.PROJ_ENVIRONMENT }} environment"
+          echo "This is the $vars_vars environment"
           terraform init -backend-config=${{ vars.PROJ_ENVIRONMENT }}/config.remote.tfbackend
 
       - name: Terraform Plan
