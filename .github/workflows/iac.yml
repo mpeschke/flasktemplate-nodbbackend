@@ -12,6 +12,9 @@ name: IaC Using Terraform
 #     - 'iac/**'
 #     - ".github/workflows/iac.yml"
 
+on:
+  push:
+
 jobs:
   terraform:
     name: "Terraform"
