@@ -12,6 +12,7 @@ on:
     - 'iac/**'
     - ".github/workflows/iac-dev.yml"
 
+# TODO: create workflows for staging and production environments.
 jobs:
   terraform:
     name: "Terraform"
