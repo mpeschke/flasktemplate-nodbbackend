@@ -16,6 +16,7 @@ jobs:
   terraform:
     name: "Terraform"
     runs-on: ubuntu-latest
+    environment: ${{ vars.ENVIRONMENT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
