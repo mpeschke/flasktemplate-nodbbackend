@@ -41,6 +41,8 @@ jobs:
         working-directory: ./iac
         run: |
           echo "This is the $proj_env environment"
+          echo "This is the $PROJ_ENVIRONMENT environment"
+          echo "This is the ${{ PROJ_ENVIRONMENT }} environment"
           terraform init -backend-config=${{ vars.PROJ_ENVIRONMENT }}/config.remote.tfbackend
 
       - name: Terraform Plan
