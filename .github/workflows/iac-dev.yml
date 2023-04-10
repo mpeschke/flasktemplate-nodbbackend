@@ -1,28 +1,16 @@
-name: IaC Using Terraform
-
-# on:
-#   push:
-#     branches: [ "main", "develop", "iac" ]
-#     paths:
-#     - 'iac/**'
-#     - ".github/workflows/iac.yml"
-#   pull_request:
-#     branches: [ "main", "develop" ]
-#     paths:
-#     - 'iac/**'
-#     - ".github/workflows/iac.yml"
+name: IaC - Terraform - ECR
 
 on:
   push:
-    branches: [ "main", "develop", "iac" ]
+    branches: [ "develop", "iac" ]
     paths:
     - 'iac/**'
-    - ".github/workflows/iac.yml"
+    - ".github/workflows/iac-dev.yml"
   pull_request:
-    branches: [ "main", "develop" ]
+    branches: [ "develop" ]
     paths:
     - 'iac/**'
-    - ".github/workflows/iac.yml"
+    - ".github/workflows/iac-dev.yml"
 
 jobs:
   terraform:
