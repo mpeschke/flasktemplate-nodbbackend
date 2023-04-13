@@ -23,4 +23,5 @@ jobs:
         id: helm
         working-directory: ./helm
         run: |
-          helm install api ./ -n standard-application -f values.yaml --create-namespace --namespace api
+          echo 'Still work in progress'
+#          helm install api ./ -n standard-application -f values.yaml --create-namespace --namespace api

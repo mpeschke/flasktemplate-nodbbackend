@@ -48,7 +48,7 @@ jobs:
           docker build --tag $REPOSITORY:$IMAGE_TAG .
 
       - name: Push docker image to Amazon ECR Public
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        # if: ${{ github.event.workflow_run.conclusion == 'success' }}
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_PUBLIC_API: ${{ vars.ECR_PUBLIC_API }}
