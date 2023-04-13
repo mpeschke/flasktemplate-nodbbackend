@@ -2,9 +2,26 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main", "develop", "crude-helm" ]
+    branches: [main, develop, crude-helm]
+    paths:
+    - 'api/**'
+    - 'tests/**'
+    - 'Dockerfile'
+    - 'requirements.txt'
+    - ".github/workflows/docker-image.yml"
   pull_request:
-    branches: [ "main", "develop" ]
+    branches: [main, develop]
+    paths:
+    - 'api/**'
+    - 'tests/**'
+    - 'Dockerfile'
+    - 'requirements.txt'
+    - ".github/workflows/docker-image.yml"
+  workflow_run:
+    workflows: [IaC-Terraform]
+    branches: [main, develop, crude-helm]
+    types:
+      - completed
 
 jobs:
   build:
@@ -21,7 +38,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
 
-      - name: Build, tag, and push docker image to Amazon ECR Public
+      - name: Build
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_PUBLIC_API: ${{ vars.ECR_PUBLIC_API }}
@@ -29,6 +46,15 @@ jobs:
           IMAGE_TAG: "develop"
         run: |
           docker build --tag $REPOSITORY:$IMAGE_TAG .
+
+      - name: Push docker image to Amazon ECR Public
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_PUBLIC_API: ${{ vars.ECR_PUBLIC_API }}
+          REPOSITORY: "api"
+          IMAGE_TAG: "develop"
+        run: |
           aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_PUBLIC_API
           docker tag $REPOSITORY:$IMAGE_TAG $ECR_PUBLIC_API:$IMAGE_TAG
           docker push $ECR_PUBLIC_API:$IMAGE_TAG

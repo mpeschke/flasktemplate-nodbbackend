@@ -1,13 +1,13 @@
-name: IaC-Terraform-ECR
+name: IaC-Terraform
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ develop ]
     paths:
     - 'iac/**'
     - ".github/workflows/iac-dev.yml"
   pull_request:
-    branches: [ "develop" ]
+    branches: [ develop ]
     paths:
     - 'iac/**'
     - ".github/workflows/iac-dev.yml"

@@ -1,0 +1,26 @@
+name: helm-k8s-service
+
+on:
+  push:
+    branches: [ "develop", "crude-helm" ]
+    paths:
+    - 'iac/**'
+    - ".github/workflows/iac-dev.yml"
+  pull_request:
+    branches: [ "develop" ]
+    paths:
+    - 'iac/**'
+    - ".github/workflows/iac-dev.yml"
+
+# TODO: create workflows for staging and production environments.
+jobs:
+  helm:
+    name: "Helm"
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Manual deploy of helm chart
+        id: helm
+        working-directory: ./helm
+        run: |
+          helm install api ./ -n standard-application -f values.yaml --create-namespace --namespace api
