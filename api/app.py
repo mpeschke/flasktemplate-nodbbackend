@@ -20,10 +20,11 @@ def get_endpoints():
     """
     Return all endpoints supported by this microservice.
     """
-    sums_request_base_url = request.base_url
+    request_base_url = request.base_url
     return jsonify(
         {
-            'sums': f'{sums_request_base_url}sums'
+            'sums': f'{request_base_url}sums',
+            'upcase': f'{request_base_url}upcase'
         }
     )
 
@@ -78,6 +79,26 @@ def post_sum():
 
     return Response(body, status, mimetype="application/json")
 
+# UPPERCASE ######################################################################
+
+@APP.route('/upcase', methods=['POST'])
+def post_upcase():
+    """
+    HTTP POST method for UPPERCASE object
+    :return: A JSON response with 'cp' added to the message body as the uppercase
+    of 's1' (200 HTTP code).
+    This template does not persist data, as it does not provide a database
+    backend.
+    """
+    request_data = request.get_json(force=True)
+    status = 200
+    body = json.dumps(
+                    {
+                        's': request_data['a1'].upper()
+                    }
+                )
+    
+    return Response(body, status, mimetype="application/json")
 
 def main():
     """
